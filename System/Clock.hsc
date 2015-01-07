@@ -147,9 +147,9 @@ instance Storable TimeSpec where
       pokeByteOff ptr (0 * #size long) xs
       pokeByteOff ptr (1 * #size long) xn
   peek ptr = do
-      xs :: #{type time_t} <- peekByteOff ptr (0 * #size long)
+      xs :: #{type long} <- peekByteOff ptr (0 * #size long)
       xn :: #{type long} <- peekByteOff ptr (1 * #size long)
-      return $ TimeSpec xs xn
+      return $ TimeSpec (fromIntegral xs) (fromIntegral xn)
 #else
 instance Storable TimeSpec where
   sizeOf _ = #{size struct timespec}
